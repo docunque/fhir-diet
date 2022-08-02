@@ -1,12 +1,14 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from functools import lru_cache
 from pydantic import BaseModel
 import yaml
+import config
 
 
-class Item(BaseModel):
-    name: str
-    price: float
+@lru_cache()
+def get_settings():
+    return config.Settings()
 
 
 app = FastAPI()
@@ -20,26 +22,21 @@ def read_config(filename="config.yaml"):
 
 
 @app.get("/")
-def read_root():
+def read_root(settings: config.Settings = Depends(get_settings)):
     read_config()
-    return {"Under": "Construction"}
+    return {"Under": "Construction", "appname": settings.app_name, }
 
 
 @app.post("/de-identify")
-def deidentify(item: Item):
+def deidentify(settings: config.Settings = Depends(get_settings)):
     return {"Under": "Construction"}
 
 
 @app.post("/pseudonymize")
-def deidentify():
+def pseudonymize(settings: config.Settings = Depends(get_settings)):
     return {"Under": "Construction"}
 
 
 @app.post("/de-pseudonymize")
-def deidentify():
+def depseudonymize(settings: config.Settings = Depends(get_settings)):
     return {"Under": "Construction"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
