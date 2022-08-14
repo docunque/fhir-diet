@@ -24,7 +24,7 @@ def read_config(filename="config.yaml"):
 @app.get("/")
 def read_root(settings: config.Settings = Depends(get_settings)):
     read_config()
-    return {"Under": "Construction", "appname": settings.app_name, }
+    return {"Under": "Construction"}
 
 
 @app.post("/de-identify")
