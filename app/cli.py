@@ -3,6 +3,7 @@ import sys
 import os
 import json
 import typer
+import config
 
 app = typer.Typer()
 
@@ -29,18 +30,21 @@ def read_file(filename: str):
 @app.command()
 def deidentify(resource_filename: str):
     resource = read_file(resource_filename)
+    settings = config.Settings()
     print(f"Hello {resource_filename}")
 
 
 @app.command()
 def pseudonymize(resource_filename: str):
     resource = read_file(resource_filename)
+    settings = config.Settings()
     print(f"Hello {resource_filename}")
 
 
 @app.command()
 def depseudonymize(resource_filename: str):
     resource = read_file(resource_filename)
+    settings = config.Settings()
     print(f"Hello {resource_filename}")
 
 

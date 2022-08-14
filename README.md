@@ -16,9 +16,17 @@ pip install -r requirements.txt
 
 **Run**
 
+Run the web service
+
 ```
 cd app
 uvicorn main:app --reload
+```
+
+Run as CLI
+
+```
+python cli.py pseudonymize test/fhir/simple_patient.json
 ```
 
 **Test**
