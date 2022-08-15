@@ -41,6 +41,12 @@ python -m unittest test.test_config
 http://localhost:8000/docs
 ```
 
+or
+
+```
+http://127.0.0.1:8000/redoc
+```
+
 **Docker**
 
 ```

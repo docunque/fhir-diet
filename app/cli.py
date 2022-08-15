@@ -4,6 +4,10 @@ import os
 import json
 import typer
 import config
+from deidentify import perform_deidentification
+from depseudonymize import perform_depseudonymization
+from pseudonymize import perform_pseudonymization
+
 
 app = typer.Typer()
 
@@ -31,21 +35,24 @@ def read_file(filename: str):
 def deidentify(resource_filename: str):
     resource = read_file(resource_filename)
     settings = config.Settings()
-    print(f"Hello {resource_filename}")
+    ret = perform_deidentification(resource, settings)
+    print(ret)
 
 
 @app.command()
 def pseudonymize(resource_filename: str):
     resource = read_file(resource_filename)
     settings = config.Settings()
-    print(f"Hello {resource_filename}")
+    ret = perform_pseudonymization(resource, settings)
+    print(ret)
 
 
 @app.command()
 def depseudonymize(resource_filename: str):
     resource = read_file(resource_filename)
     settings = config.Settings()
-    print(f"Hello {resource_filename}")
+    ret = perform_depseudonymization(resource, settings)
+    return ret
 
 
 if __name__ == "__main__":

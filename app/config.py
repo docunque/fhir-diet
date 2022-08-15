@@ -12,6 +12,9 @@ class Settings():
         try:
             with open(filename, "r") as ymlfile:
                 cfg = yaml.safe_load(ymlfile)
+                # set values of the dictionary as class attributes
+                for key in cfg:
+                    setattr(self, key, cfg[key])
                 print(f":thumbs_up: settings loaded")
         except IOError as e:
             print(
