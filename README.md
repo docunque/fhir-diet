@@ -27,12 +27,15 @@ Run as CLI
 
 ```
 python cli.py pseudonymize test/fhir/simple_patient.json
+python cli.py deidentify test/fhir/simple_patient.json
 ```
 
 **Test**
 
 ```
+cd app
 python -m unittest test.test_config
+python -m unittest test.test_deidentify
 ```
 
 **Docs**
