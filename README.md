@@ -53,3 +53,8 @@ http://127.0.0.1:8000/redoc
 docket build . -t fhir-diet
 docker run -p 8000:80 fhir-diet
 ```
+
+**Credits**
+© Copyright HL7® logo, FHIR® logo and the flaming fire are registered trademarks owned by [Health Level Seven International](https://www.hl7.org/legal/trademarks.cfm)
+
+"FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7"
