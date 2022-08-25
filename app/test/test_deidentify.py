@@ -7,11 +7,11 @@ import copy
 
 
 class TestDeidentify(unittest.TestCase):
-    def test_redact(self):
+    def test_redact1(self):
         # initial test case
         settings = Settings()
         settings.rules = [
-            {'match': "TODO-SELECT-PATIENT-NAME",
+            {'match': "Patient.name", #where(use='usual').given.first()
              'action': 'redact'}
         ]
         resource = read_file('test/fhir/simple_patient.json')
@@ -21,7 +21,6 @@ class TestDeidentify(unittest.TestCase):
         result = perform_deidentification(resource, settings)
         print(result)
         self.assertDictEqual(expected, result)
-
 
 if __name__ == '__main__':
     unittest.main()
