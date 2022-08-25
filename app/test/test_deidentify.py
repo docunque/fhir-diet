@@ -11,15 +11,16 @@ class TestDeidentify(unittest.TestCase):
         # initial test case
         settings = Settings()
         settings.rules = [
-            {'match': "Patient.name", #where(use='usual').given.first()
+            {'match': "Patient.name", #.where(use='usual').given.first()",
              'action': 'redact'}
         ]
         resource = read_file('test/fhir/simple_patient.json')
-        print("Resource loaded: ", resource)
+        print(f"Resource loaded: {resource}")
         expected = copy.copy(resource)
         del expected['name']  # redact the name attribute
+        print(f"Expected: {expected}")
         result = perform_deidentification(resource, settings)
-        print(result)
+        print(f"Actual: {result}")
         self.assertDictEqual(expected, result)
 
 if __name__ == '__main__':

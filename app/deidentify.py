@@ -1,21 +1,41 @@
 import fhirpathpy
 
-
-
-
 def del_by_path(resource, el):
     ret = resource
     path = el['path'] # "Patient.name"
-    for segment in path.split('.')[1:]:
+    path = path.split('.')[1:] # Remove root
+    if len(path) == 0:
+        ret.clear()
+        return
+    for segment in path[:-1]:
         if isinstance(ret, dict):
             ret = ret.get(segment)
         elif isinstance(ret, list):
             for idx, data in enumerate(ret):
-                if data == el['data']:
+                if data == el['value']:
                     ret = ret[idx]
-    print(f"deleting {ret}")
-    del ret
+    if (path[-1] in list(ret.keys())):
+        if isinstance(ret[path[-1]], list):
+            for idx, data in enumerate(ret[path[-1]]):
+                if data == el['value']:
+                    del ret[path[-1]][idx]
+                if len(ret[path[-1]]) == 0:
+                    del ret[path[-1]]
+        else:
+            del ret[path[-1]]
 
+# def del_by_path(resource, el):
+#     ret = resource
+#     path = el['path'] # "Patient.name"
+#     path = path.split('.', 1)[1] # Remove root
+#     for segment in path.split('.'):
+#         if isinstance(ret, dict):
+#             ret = ret.get(segment)
+#         elif isinstance(ret, list):
+#             for idx, data in enumerate(ret):
+#                 if data == el['value']:
+#                     ret = ret[idx]
+#     del ret[segment]
 
 def get_by_path(resource, el):
     ret = resource
@@ -43,9 +63,8 @@ def perform_deidentification(resource, settings):
             if rule['action'] == 'redact':
                 # list of resource nodes
                 del_by_path(resource, el)
-                print("Deleted object")
-                print(resource)
+                #print("Deleted object")
+                #print(f"Updated resource = {resource}")
             else:
                 raise NotImplemented(f'Method {rule["action"]} is not implemented')
-        print(f'res: ', matched_elements)
-    return {'test': 123, 'rules': settings.rules}
+    return resource
