@@ -3,9 +3,9 @@
 HL7 FHIR de-identification tool.
 This tool is currently under construction for [HOSMARTAI](https://www.hosmartai.eu/) open call.
 
-![LOGO BLACK](https://user-images.githubusercontent.com/696267/186619641-a28b2b04-087d-4a31-a5ab-1737333220b6.png | width=500)
+![LOGO BLACK](https://user-images.githubusercontent.com/696267/186619641-a28b2b04-087d-4a31-a5ab-1737333220b6.png)
 
-![logo_project](https://user-images.githubusercontent.com/696267/181810750-a57d706b-92d0-4a2f-a9d9-b39f781858d9.jpg | width=500)
+![logo_project](https://user-images.githubusercontent.com/696267/181810750-a57d706b-92d0-4a2f-a9d9-b39f781858d9.jpg)
 
 ---
 
