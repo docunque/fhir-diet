@@ -55,7 +55,7 @@ http://127.0.0.1:8000/redoc
 **Docker**
 
 ```
-docket build . -t fhir-diet
+docker build . -t fhir-diet
 docker run -p 8000:80 fhir-diet
 ```
 
