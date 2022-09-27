@@ -2,6 +2,8 @@ from util import find_nodes
 from Crypto.Hash import SHA3_256
 import json
 
+def compute_hash(msg):
+    return SHA3_256.new(msg).hexdigest()
 
 def hash_nodes(node, key, value):
     if (key in list(node.keys())):
@@ -13,13 +15,13 @@ def hash_nodes(node, key, value):
                         node_str = json.dumps(node[key][idx])
                     else:
                         node_str = node[key][idx]
-                    node[key][idx] = SHA3_256.new(node_str.encode()).hexdigest()
+                    node[key][idx] = compute_hash(node_str.encode())
         else:
             if isinstance(node[key], dict):
                 node_str = json.dumps(node[key])
             else:
                 node_str = node[key]
-            node[key] = SHA3_256.new(node_str.encode()).hexdigest()
+            node[key] = compute_hash(node_str.encode())
 
 def cryptoHash_by_path(resource, el, params):
     ret = resource
