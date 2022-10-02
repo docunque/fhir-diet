@@ -5,8 +5,10 @@ from rich import print
 
 
 class Settings():
-    def __init__(self):
-        self.parse("config.yaml")
+    def __init__(self, filename=""):
+        if not filename:
+            filename = "config.yaml"
+        self.parse(filename)
 
     def parse(self, filename):
         try:

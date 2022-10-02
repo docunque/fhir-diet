@@ -32,25 +32,25 @@ def read_file(filename: str):
 
 
 @app.command()
-def deidentify(resource_filename: str):
+def deidentify(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
     resource = read_file(resource_filename)
-    settings = config.Settings()
+    settings = config.Settings(config_filename)
     ret = perform_deidentification(resource, settings)
     print(ret)
 
 
 @app.command()
-def pseudonymize(resource_filename: str):
+def pseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
     resource = read_file(resource_filename)
-    settings = config.Settings()
+    settings = config.Settings(config_filename)
     ret = perform_pseudonymization(resource, settings)
     print(ret)
 
 
 @app.command()
-def depseudonymize(resource_filename: str):
+def depseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
     resource = read_file(resource_filename)
-    settings = config.Settings()
+    settings = config.Settings(config_filename)
     ret = perform_depseudonymization(resource, settings)
     return ret
 
