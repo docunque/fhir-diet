@@ -2,7 +2,7 @@
 # currently we support sha256 hash function
 general:
   appname: FHIR-DIET
-  hash_type: "sha256"
+  hash_type: "sha3_256"
 rules:
   - match: patient.name
     action: cryptohash

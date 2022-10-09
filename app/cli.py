@@ -13,6 +13,9 @@ app = typer.Typer()
 
 
 def read_resource_from_file(filename: str):
+    """
+    Read a fhir resource from file and return the json data
+    """
     try:
         with open(filename, 'r') as jfile:
             json_data = json.load(jfile)
