@@ -1,6 +1,0 @@
-# this is a comment
-general:
-  appname: FHIR-DIET
-rules:
-  - match: patient.name
-    action: cryptoHash
