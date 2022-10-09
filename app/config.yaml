@@ -2,5 +2,5 @@
 general:
   appname: FHIR-DIET
 rules:
-  - match: nodesByType('Reference').reference
+  - match: patient.id
     action: cryptoHash

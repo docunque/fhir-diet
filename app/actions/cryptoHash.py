@@ -23,7 +23,7 @@ def hash_nodes(node, key, value):
                 node_str = node[key]
             node[key] = compute_hash(node_str.encode())
 
-def cryptoHash_by_path(resource, el, params):
+def cryptohash_by_path(resource, el, params):
     ret = resource
     path = el['path'] # "Patient.name"
     path = path.split('.')[1:] # Remove root

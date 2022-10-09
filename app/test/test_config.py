@@ -5,7 +5,8 @@ from deidentify import perform_deidentification
 from depseudonymize import perform_depseudonymization
 from pseudonymize import perform_pseudonymization
 from cli import deidentify, read_resource_from_file
-
+import dateutil.parser as parser
+from datetime import timedelta
 
 class TestConfig(unittest.TestCase):
     """
@@ -34,11 +35,17 @@ class TestConfig(unittest.TestCase):
 
     def test_deidentify_perturb(self):
         config_filename = 'test/config/perturb.yaml'
-        resource_filename = 'test/fhir/simple_patient.json'
+        resource_filename = 'test/fhir/patient_R5DB.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = perform_deidentification(resource, settings)
-        self.assertFalse(True) # assert the birth date in around the original date
+        # check if the perturbation is in the stated range
+        perturbed_date = parser.parse(ret['birthDate'])
+        ref_date = parser.parse('1974-12-25')
+        min_date = ref_date - timedelta(days=5)
+        max_date = ref_date + timedelta(days=10)
+        self.assertTrue(perturbed_date < max_date)
+        self.assertTrue(perturbed_date > min_date)
 
     def test_deidentify_cryptohash(self):
         config_filename = 'test/config/cryptohash.yaml'
@@ -47,7 +54,7 @@ class TestConfig(unittest.TestCase):
         settings = Settings(config_filename)
         ret = perform_deidentification(resource, settings)
         # what if the target is a list ? (e.g. patient['name']) 
-        self.assertEqual(resource['patient']['id'], 'a1234todotodo') 
+        self.assertEqual(ret['patient']['id'], 'a1234todotodo') 
     
     def test_deidentify_substitute(self):
         config_filename = 'test/config/substitute.yaml'
@@ -55,7 +62,7 @@ class TestConfig(unittest.TestCase):
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = perform_deidentification(resource, settings)
-        self.assertEqual(resource['name']['family'], 'foo')
+        self.assertEqual(ret['name']['family'], 'foo')
 
 
     def test_pseudonymize_ttp(self):
@@ -72,7 +79,7 @@ class TestConfig(unittest.TestCase):
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = perform_pseudonymization(resource, settings)
-        self.assertEqual(resource['name']['family'], 'ENCRYPTED HEX HERE')
+        self.assertEqual(ret['name']['family'], 'ENCRYPTED HEX HERE')
 
     def test_depseudonymize_encrypt(self):
         config_filename = 'test/config/encrypt.yaml'
@@ -80,7 +87,7 @@ class TestConfig(unittest.TestCase):
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = perform_deidentification(resource, settings)
-        self.assertEqual(resource['name']['family'], 'Chalmers')
+        self.assertEqual(ret['name']['family'], 'Chalmers')
 
 if __name__ == '__main__':
     unittest.main()
