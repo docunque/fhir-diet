@@ -12,7 +12,7 @@ class TestCli(unittest.TestCase):
         #ret = perform_deidentification(resource, settings)
         #print(ret)
         #self.assertIsNotNone(settings.rules)
-        from cli import read_file
+        from cli import read_resource_from_file
         print("ciao")
 
 

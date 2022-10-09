@@ -12,7 +12,7 @@ from pseudonymize import perform_pseudonymization
 app = typer.Typer()
 
 
-def read_file(filename: str):
+def read_resource_from_file(filename: str):
     try:
         with open(filename, 'r') as jfile:
             json_data = json.load(jfile)
@@ -33,7 +33,7 @@ def read_file(filename: str):
 
 @app.command()
 def deidentify(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_file(resource_filename)
+    resource = read_resource_from_file(resource_filename)
     settings = config.Settings(config_filename)
     ret = perform_deidentification(resource, settings)
     print(ret)
@@ -41,7 +41,7 @@ def deidentify(resource_filename: str, config_filename: str = typer.Argument("co
 
 @app.command()
 def pseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_file(resource_filename)
+    resource = read_resource_from_file(resource_filename)
     settings = config.Settings(config_filename)
     ret = perform_pseudonymization(resource, settings)
     print(ret)
@@ -49,7 +49,7 @@ def pseudonymize(resource_filename: str, config_filename: str = typer.Argument("
 
 @app.command()
 def depseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_file(resource_filename)
+    resource = read_resource_from_file(resource_filename)
     settings = config.Settings(config_filename)
     ret = perform_depseudonymization(resource, settings)
     return ret

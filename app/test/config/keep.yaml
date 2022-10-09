@@ -1,0 +1,5 @@
+# keep the name as is 
+  appname: FHIR-DIET
+rules:
+  - match: patient.name
+    action: keep

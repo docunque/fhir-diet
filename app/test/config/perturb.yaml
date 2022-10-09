@@ -1,0 +1,11 @@
+# perturn a numeric field or a date field
+# in case of number, it would add a random number between min and max
+# in case of date, it would add a random number of day to the date between min and max
+general:
+  appname: FHIR-DIET
+rules:
+  - match: patient.birthdate
+    action: perturb
+    params:
+      - max: 10
+        min: -5

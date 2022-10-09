@@ -1,0 +1,6 @@
+# TO BE DONE in the third sprint
+general:
+  appname: FHIR-DIET
+rules:
+  - match: patient.name
+    action: ttp

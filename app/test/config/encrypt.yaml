@@ -1,0 +1,9 @@
+# encrypt patient name with a given asymmetric encryption algorithm
+general:
+  appname: FHIR-DIET
+  public_key: "./id_rsa.pub"
+  private_key: "./id_rsa."
+  algorithm: "RSA"
+rules:
+  - match: patient.name
+    action: encrypt

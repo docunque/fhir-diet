@@ -1,6 +1,6 @@
 import unittest
 from config import Settings
-from cli import read_file
+from cli import read_resource_from_file
 from config import Settings
 from deidentify import perform_deidentification
 from Crypto.Hash import SHA3_256
@@ -24,7 +24,7 @@ class TestDeidentify(unittest.TestCase):
              'action': 'redact',
              'params': {}}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         expected = copy.deepcopy(resource)
         del expected['name']
@@ -42,7 +42,7 @@ class TestDeidentify(unittest.TestCase):
              'action': 'cryptoHash',
              'params': {}}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         expected = copy.deepcopy(resource)
         hash_str = SHA3_256.new(expected['id'].encode()).hexdigest()
@@ -61,7 +61,7 @@ class TestDeidentify(unittest.TestCase):
              'action': 'keep',
              'params': {}}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         expected = copy.deepcopy(resource)
         print(f"\nExpected: {expected}\n")
@@ -81,7 +81,7 @@ class TestDeidentify(unittest.TestCase):
                 'new_value': new_val
              }}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         expected = copy.deepcopy(resource)
         expected['id'] = new_val
@@ -104,7 +104,7 @@ class TestDeidentify(unittest.TestCase):
                 'nonce': nonce
              }}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
         ciphertext, tag = cipher.encrypt_and_digest(resource['id'].encode())
@@ -128,7 +128,7 @@ class TestDeidentify(unittest.TestCase):
                 'noise': noise
              }}
         ]
-        resource = read_file(infile)
+        resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
         expected = copy.deepcopy(resource)
         expected['ttl'] += noise

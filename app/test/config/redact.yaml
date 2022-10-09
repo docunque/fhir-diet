@@ -1,0 +1,6 @@
+# it remove the patient name
+general:
+  appname: FHIR-DIET
+rules:
+  - match: patient.name
+    action: redact

@@ -1,6 +1,6 @@
 import unittest
 from config import Settings
-from cli import read_file
+from cli import read_resource_from_file
 from config import Settings
 from deidentify import perform_deidentification
 from Crypto.Hash import SHA3_256
