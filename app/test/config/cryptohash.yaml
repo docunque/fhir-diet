@@ -1,8 +1,8 @@
-# substitute the patient name with its hash
-# currently we support sha256 hash function
+# Substitute the patient name with its hash
+# Currently we support sha256 hash function
 general:
   appname: FHIR-DIET
-  hash_type: "sha3_256"
+  hash_type: sha3_256
 rules:
-  - match: patient.name
+  - match: Patient.name
     action: cryptohash

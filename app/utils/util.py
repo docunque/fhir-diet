@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def not_implemented(msg):
     raise NotImplementedError(msg)
 
@@ -28,6 +30,15 @@ def find_nodes(node, path_list, wheres):
             return find_nodes(node[key], path_list, wheres)
         else:
             raise Exception
+
+def get_date(date_str, date_format):
+    try:
+        return datetime.strptime(date_str, date_format)
+    except ValueError:
+        return None
+
+
+
 
 # tokens = ['where', 'first()']
 # where_values = { 'position': 'pos'}

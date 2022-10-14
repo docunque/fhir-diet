@@ -1,18 +1,18 @@
 from utils.util import error, find_nodes
-from utils.crypto import rsa_encrypt
+from utils.crypto import rsa_decrypt
 import json
 
 supported_enc_schemes = {
-    'RSA': rsa_encrypt
+    'RSA': rsa_decrypt
 }
-expected_params = { 'RSA': [ 'public_key' ] }
+expected_params = { 'RSA': [ 'private_key' ] }
 encoding = 'utf-8'
 
-def encrypt(plaintext, enc_params):
-    ciphertext = supported_enc_schemes[enc_params['algorithm']](plaintext, enc_params)
-    return ciphertext.hex()
+def decrypt(ciphertext, enc_params):
+    plaintext = supported_enc_schemes[enc_params['algorithm']](ciphertext, enc_params)
+    return json.loads(plaintext.decode(encoding))
 
-def encrypt_nodes(node, key, value, enc_params):
+def decrypt_nodes(node, key, value, enc_params):
     if (key in list(node.keys())):
         #print(f'Found {key} in {node}')
         if isinstance(node[key], list):
@@ -22,15 +22,15 @@ def encrypt_nodes(node, key, value, enc_params):
                         node_str = json.dumps(node[key][idx])
                     else:
                         node_str = node[key][idx]
-                    node[key][idx] = encrypt(node_str.encode(encoding), enc_params)
+                    node[key][idx] = decrypt(bytes.fromhex(node_str), enc_params)
         else:
             if isinstance(node[key], dict):
                 node_str = json.dumps(node[key])
             else:
                 node_str = node[key]
-            node[key] = encrypt(node_str.encode(encoding), enc_params)
+            node[key] = decrypt(bytes.fromhex(node_str), enc_params)
 
-def encrypt_by_path(resource, el, params):
+def decrypt_by_path(resource, el, params):
     if not all(param in params for param in expected_params[params['algorithm']]):
         error(f'Missing params (expected {expected_params[params["algorithm"]]})')
     ret = resource
@@ -40,4 +40,4 @@ def encrypt_by_path(resource, el, params):
         ret.clear()
         return
     ret = find_nodes(ret, path[:-1], [])
-    encrypt_nodes(ret, path[-1], el['value'], params)
+    decrypt_nodes(ret, path[-1], el['value'], params)

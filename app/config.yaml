@@ -2,5 +2,5 @@
 general:
   appname: FHIR-DIET
 rules:
-  - match: patient.id
-    action: cryptoHash
+  - match: Patient.id
+    action: cryptohash

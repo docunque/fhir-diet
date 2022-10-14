@@ -1,5 +1,6 @@
-# keep the name as is 
+# Keep the name as is
+general:
   appname: FHIR-DIET
 rules:
-  - match: patient.name
+  - match: Patient.name
     action: keep

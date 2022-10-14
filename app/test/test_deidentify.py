@@ -38,8 +38,8 @@ class TestDeidentify(unittest.TestCase):
         # initial test case
         settings = Settings()
         settings.rules = [
-            {'match': "Patient.id",
-             'action': 'cryptoHash',
+            {'match': "Patient.name",
+             'action': 'cryptohash',
              'params': {}}
         ]
         resource = read_resource_from_file(infile)

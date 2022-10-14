@@ -1,14 +1,9 @@
-def perform_depseudonymization(resource, settings):
-    return {'test': 123}
-
-
 import fhirpathpy
-from util import not_implemented
-from actions.encrypt import encrypt_by_path
+from utils.util import not_implemented
+from actions.decrypt import decrypt_by_path
 
 actions = {
-    #"ttp": 'TODO',
-    "encrypt": encrypt_by_path,
+    "encrypt": decrypt_by_path,
 }
 
 def perform_depseudonymization(resource, settings):

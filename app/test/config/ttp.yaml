@@ -2,5 +2,5 @@
 general:
   appname: FHIR-DIET
 rules:
-  - match: patient.name
+  - match: Patient.name
     action: ttp

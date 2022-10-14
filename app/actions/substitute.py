@@ -1,12 +1,14 @@
-from util import error, find_nodes
+from utils.util import error, find_nodes
 
-expected_params = ['new_value']
+expected_params = ['substitute_with']
 
 def substitute(old_value, new_value):
     return new_value
 
 def substitute_nodes(node, key, value, new_value):
-    if (key in list(node.keys())):
+    if isinstance(node, list):
+        [ substitute_nodes(node[node_elem_idx], key, value, new_value) for node_elem_idx in range(len(node)) ]
+    elif (key in list(node.keys())):
         #print(f'Found {key} in {node}')
         if isinstance(node[key], list):
             for idx, data in enumerate(node[key]):
@@ -31,4 +33,4 @@ def substitute_by_path(resource, el, params):
         ret.clear()
         return
     ret = find_nodes(ret, path[:-1], [])
-    substitute_nodes(ret, path[-1], el['value'], params['new_value'])
+    substitute_nodes(ret, path[-1], el['value'], params[expected_params[0]])

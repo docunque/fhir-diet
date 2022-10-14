@@ -1,4 +1,4 @@
-from util import find_nodes
+from utils.util import find_nodes
 from Crypto.Hash import SHA3_256
 import json
 

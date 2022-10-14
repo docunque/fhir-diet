@@ -1,8 +1,8 @@
-# it substitute patient.name with 'foo'
+# Substitute Patient.name with 'foo'
 general:
   appname: FHIR-DIET
 rules:
-  - match: patient.name
+  - match: Patient.name.family
     action: substitute
     params:
-      - substitute_with: "foo"
+      substitute_with: foo

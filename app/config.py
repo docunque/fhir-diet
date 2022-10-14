@@ -17,7 +17,7 @@ class Settings():
                 # set values of the dictionary as class attributes
                 for key in cfg:
                     setattr(self, key, cfg[key])
-                print(f":thumbs_up: settings loaded")
+                print(f":thumbs_up: Settings loaded: {cfg}")
         except IOError as e:
             print(
                 f":sad_but_relieved_face: Settings file {filename} does not exist.")

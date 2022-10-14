@@ -1,8 +1,8 @@
 import fhirpathpy
-from util import not_implemented
+from utils.util import not_implemented
 from actions.keep import keep_by_path
 from actions.redact import redact_by_path
-from actions.cryptoHash import cryptohash_by_path
+from actions.cryptohash import cryptohash_by_path
 from actions.perturb import perturb_by_path
 from actions.substitute import substitute_by_path
 
@@ -20,8 +20,10 @@ def perform_deidentification(resource, settings):
         matched_elements = fhirpathpy.evaluate(resource, rule['match'] + '.log()', [])
         for el in matched_elements:
             action = rule['action']
+            params = rule['params'] if 'params' in rule.keys() else {}
             if action in list(actions.keys()):
-                actions[action](resource, el, rule['params'])
+                #print(f'RES={resource}\nEL={el}\nPARAMS={params}')
+                actions[action](resource, el, params)
             else:
                 not_implemented(f'Method {action} is not implemented')
     return resource
