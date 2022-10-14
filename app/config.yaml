@@ -1,6 +1,7 @@
-# this is a comment
+# example of config file
 general:
   appname: FHIR-DIET
+  hash_type: sha3_256
 rules:
-  - match: Patient.id
+  - match: Patient.name
     action: cryptohash

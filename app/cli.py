@@ -1,4 +1,3 @@
-from rich import print
 import sys
 import os
 import json
@@ -7,6 +6,7 @@ import config
 from deidentify import perform_deidentification
 from depseudonymize import perform_depseudonymization
 from pseudonymize import perform_pseudonymization
+from rich import print
 
 
 app = typer.Typer()

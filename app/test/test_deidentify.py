@@ -22,7 +22,8 @@ class TestDeidentify(unittest.TestCase):
         settings.rules = [
             {'match': "Patient.name",
              'action': 'redact',
-             'params': {}}
+             'params': {}
+            }
         ]
         resource = read_resource_from_file(infile)
         #print(f"Resource loaded: {resource}")
