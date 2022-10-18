@@ -1,7 +1,11 @@
 from utils.util import find_nodes
 
+
 def del_nodes(node, key, value):
-    if (key in list(node.keys())):
+    if isinstance(node, list):
+        [del_nodes(node[node_elem_idx], key, value)
+         for node_elem_idx in range(len(node))]
+    elif (key in list(node.keys())):
         #print(f'Found {key} in {node}')
         if isinstance(node[key], list):
             for idx, data in enumerate(node[key]):
@@ -14,10 +18,11 @@ def del_nodes(node, key, value):
             #ret[path[-1]] = 'bau'
             del node[key]
 
+
 def redact_by_path(resource, el, params):
     ret = resource
-    path = el['path'] # "Patient.name"
-    path = path.split('.')[1:] # Remove root
+    path = el['path']  # "Patient.name"
+    path = path.split('.')[1:]  # Remove root
     if len(path) == 0:
         ret.clear()
         return

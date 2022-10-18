@@ -1,0 +1,61 @@
+# SAFE HARBOUR DEFAULT CONFIGURATION
+# Remove the following 18 identifiers:
+# - Names
+# - All geographic subdivisions smaller than a state (street address, city, county, zip code)
+# - Dates, including birthdate, admission date, discharge date, and date of death
+# - Telephone numbers
+# - Fax numbers
+# - Email addresses
+# - Social Security numbers
+# - Medical record numbers
+# - Health plan beneficiary numbers
+# - Account numbers
+# - Certificate/license numbers
+# - Vehicle identifiers and serial numbers, including license plate numbers
+# - Device identifiers and serial numbers
+# - Web URLs
+# - IP addresses
+# - Biometric identifiers; including fingerprints and voice
+# - Full face photos
+# - Any other unique identifying number, characteristic, or codes
+general:
+  appname: FHIR-DIET
+rules:
+  # Names
+  - match: Patient.name
+    action: redact
+  - match: Patient.contact.name
+    action: redact
+  # Street address, city, county, zip code
+  - match: Patient.address.text
+    action: redact
+  - match: Patient.address.line
+    action: redact
+  - match: Patient.address.city
+    action: redact
+  - match: Patient.address.district
+    action: redact
+  - match: Patient.address.postalCode
+    action: redact
+  - match: Patient.contact.address.line
+    action: redact
+  - match: Patient.contact.address.city
+    action: redact
+  - match: Patient.contact.address.district
+    action: redact
+  - match: Patient.contact.address.postalCode
+    action: redact
+  # Dates
+  - match: Patient.birthDate
+    action: redact
+  - match: Patient._birthDate.extension.valueDateTime
+    action: redact
+  - match: Patient.address.period.start
+    action: redact
+  - match: Patient.contact.address.period.start
+    action: redact
+  # Telephone and fax numbers and email addresses
+  - match: Patient.telecom.value
+    action: redact
+  - match: Patient.contact.telecom.value
+    action: redact

@@ -9,6 +9,7 @@ from datetime import timedelta
 import copy
 import json
 
+
 class TestConfig(unittest.TestCase):
     """
     Testing settings applied to FHIR resources
@@ -62,10 +63,13 @@ class TestConfig(unittest.TestCase):
         ret = perform_deidentification(resource, settings)
         # what if the target is a list ? (e.g. patient['name']) ----> for each elem in the list compute the hash;
         #                                                             if the elem is a dict, converts it to a string and hash it
-        self.assertEqual(ret['name'][0], 'b7340931fb4ee512d5d5f68f6da7a027c5ba8dd8a8d5ea4705416f0b85e1b9ca')
-        self.assertEqual(ret['name'][1], '6f4bae1f49ee29890cbfcf8ffb26eccc2520cb543fa30a28458e2952f40b7ea3')
-        self.assertEqual(ret['name'][2], 'dad3235c168df9f3ad295af27f18866e09c4c41009ca555c7706d90474c02626')
-    
+        self.assertEqual(
+            ret['name'][0], 'b7340931fb4ee512d5d5f68f6da7a027c5ba8dd8a8d5ea4705416f0b85e1b9ca')
+        self.assertEqual(
+            ret['name'][1], '6f4bae1f49ee29890cbfcf8ffb26eccc2520cb543fa30a28458e2952f40b7ea3')
+        self.assertEqual(
+            ret['name'][2], 'dad3235c168df9f3ad295af27f18866e09c4c41009ca555c7706d90474c02626')
+
     def test_deidentify_substitute(self):
         print(f"======== TEST SUBSTITUTE ========")
         config_filename = 'test/config/substitute.yaml'
@@ -84,7 +88,7 @@ class TestConfig(unittest.TestCase):
     #     settings = Settings(config_filename)
     #     ret = perform_pseudonymization(resource, settings)
     #     # Under construction
-        
+
     def test_pseudonymize_encrypt(self):
         print(f"=== TEST PSEUDONYMIZE/DEPSEUDONYMIZE ENCRYPT ===")
         config_filename = 'test/config/encrypt.yaml'
@@ -113,6 +117,41 @@ class TestConfig(unittest.TestCase):
     #     self.assertEqual(enc_resource['name'][0], resource['name'][0])
     #     self.assertEqual(enc_resource['name'][1], resource['name'][1])
     #     self.assertEqual(enc_resource['name'][2], resource['name'][2])
+
+    def test_depseudonymize_decrypt(self):
+        print(f"=== TEST SAFE HARBOUR REDACT ===")
+        config_filename = 'test/config/safe_harbour_redact.yaml'
+        resource_filename = 'test/fhir/patient_R5DB.json'
+        resource = read_resource_from_file(resource_filename)
+        settings = Settings(config_filename)
+        ret = perform_deidentification(resource, settings)
+        #print(f'RET={ret}')
+        self.assertRaises(KeyError, lambda: ret['name'])
+        self.assertRaises(KeyError, lambda: ret['contact'][0]['name'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['text'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['line'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['city'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['district'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['postalCode'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['line'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['city'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['district'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['postalCode'])
+        self.assertRaises(KeyError, lambda: ret['birthDate'])
+        self.assertRaises(
+            KeyError, lambda: ret['_birthDate']['extension'][0]['valueDateTime'])
+        self.assertRaises(
+            KeyError, lambda: ret['address'][0]['period']['start'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['period']['start'])
+        self.assertRaises(KeyError, lambda: ret['telecom'][0]['value'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['telecom'][0]['value'])
+
 
 if __name__ == '__main__':
     unittest.main()
