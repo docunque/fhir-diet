@@ -1,0 +1,28 @@
+# Substitute the patient name with its hash
+# Currently we support sha256 hash function
+general:
+  appname: FHIR-DIET
+rules:
+  - match: Patient.name
+    action: cryptohash
+    params:
+      hash_type: sha3_256
+  - match: Patient.birthDate
+    action: perturb
+    params:
+      max: 10
+      min: -5
+  - match: Patient.address
+    action: encrypt
+    params:
+      algorithm: RSA
+      public_key: test/keys/id_rsa.pub
+  - match: Patient.address
+    action: decrypt
+    params:
+      algorithm: RSA
+      private_key: test/keys/id_rsa
+  - match: Patient.id
+    action: substitute
+    params:
+      substitute_with: foo

@@ -7,7 +7,6 @@ date_format = "%Y-%m-%d"
 
 def perturb(real_value, noise_range, is_date=False):
     noise = bounded_random(noise_range[0], noise_range[1])
-    print(f'NOISE={noise}')
     if not is_date:
         return real_value + noise
     return (real_value + timedelta(days=noise)).strftime(date_format)

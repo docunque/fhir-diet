@@ -3,7 +3,7 @@ general:
   appname: FHIR-DIET
 rules:
   - match: Patient.name
-    action: encrypt
+    action: decrypt
     params:
       algorithm: RSA
-      public_key: test/keys/id_rsa.pub
+      private_key: test/keys/id_rsa
