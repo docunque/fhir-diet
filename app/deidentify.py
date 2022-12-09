@@ -15,6 +15,8 @@ actions = {
 }
 
 def perform_deidentification(resource, settings):
+    #if isinstance(resource, list):
+    #    pass
     for rule in settings.rules:
         fhirpathpy.engine.invocations['log'] = {'fn': lambda ctx, els: [{'path': x.path, 'value': x.data} for x in els]}
         matched_elements = fhirpathpy.evaluate(resource, rule['match'] + '.log()', [])
