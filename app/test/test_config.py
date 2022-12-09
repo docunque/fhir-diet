@@ -15,10 +15,20 @@ class TestConfig(unittest.TestCase):
     Testing settings applied to FHIR resources
     """
 
-    def test_read(self):
-        print(f"=========== TEST READ ===========")
+    def test_read_settings(self):
+        print(f"=========== TEST READ SETTINGS ===========")
         settings = Settings()
         self.assertIsNotNone(settings.rules)
+
+    def test_read_lists(self):
+        print(f"=========== TEST READ LIST ===========")
+        config_filename = 'test/config/keep.yaml'
+        resource_filename = 'test/fhir/patient_list.json'
+        resource = read_resource_from_file(resource_filename)
+        original_value = resource['name']
+        settings = Settings(config_filename)
+        ret = perform_deidentification(resource, settings)
+        self.assertEqual(ret['name'], original_value)
 
     def test_keep(self):
         print(f"=========== TEST KEEP ===========")
