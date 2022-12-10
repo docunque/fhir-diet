@@ -1,5 +1,4 @@
-# Substitute the patient name with its hash
-# Currently we support sha256 hash function
+# Define multiple actions to perform
 general:
   appname: FHIR-DIET
 rules:

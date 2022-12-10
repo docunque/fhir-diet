@@ -1,0 +1,8 @@
+# Extract the list of values to pseudonymize
+general:
+  appname: FHIR-DIET
+rules:
+  - match: Patient.name.family
+    action: ttp_gen_list
+    params:
+      output_file: test/pseudonymization/list.csv

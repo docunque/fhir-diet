@@ -1,0 +1,8 @@
+# Pseudonymize the values resulting from the matching rule using the given mapping file
+general:
+  appname: FHIR-DIET
+rules:
+  - match: Patient.name.family
+    action: ttp_pseudonymize
+    params:
+      mapping_file: test/pseudonymization/pseudonym_mapping.csv

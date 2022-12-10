@@ -2,7 +2,7 @@ import sys
 import os
 import json
 import typer
-from app.processor import process_data
+from processor import process_data
 import config
 from deidentify import perform_deidentification
 from depseudonymize import perform_depseudonymization
