@@ -56,28 +56,56 @@ class TestPseudonymize(unittest.TestCase):
             ret['name'][2]['family'], original_resource['name'][2]['family'])
         print(f"OK")
 
-    def test_encrypt1(self):
-        print(f"========= TEST ENCRYPT =========")
-        # initial test case
-        key = get_random_bytes(16)
-        nonce = get_random_bytes(12)
-        settings = Settings()
-        settings.rules = [
-            {'match': "Patient.id",
-             'action': 'encrypt',
-             'params': {
-                'key': key,
-                'nonce': nonce
-             }}
-        ]
-        resource = read_resource_from_file(infile)
-        #print(f"Resource loaded: {resource}")
-        cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
-        ciphertext, tag = cipher.encrypt_and_digest(resource['id'].encode())
-        enc_str = { 'ciphertext': ciphertext, 'tag': tag }
-        expected = copy.deepcopy(resource)
-        expected['id'] = enc_str
-        print(f"\nExpected: {expected}\n")
-        result = perform_deidentification(resource, settings)
-        print(f"Actual: {result}\n\n\n\n")
-        self.assertDictEqual(expected, result)
+    def test_pseudonymize_encrypt(self):
+        print(f"=== TEST PSEUDONYMIZE/DEPSEUDONYMIZE ENCRYPT ===")
+        config_filename = 'test/config/encrypt.yaml'
+        resource_filename = 'test/fhir/simple_patient.json'
+        resource = read_resource_from_file(resource_filename)
+        settings = Settings(config_filename)
+        original_resource = copy.deepcopy(resource)
+        #ret = perform_pseudonymization(resource, settings)
+        ret = process_data(resource, settings)
+        config_filename = 'test/config/decrypt.yaml'
+        settings = Settings(config_filename)
+        #ret2 = perform_depseudonymization(ret, settings)
+        ret2 = process_data(ret, settings)
+        #dec_names = [ json.loads(rsa_decrypt(bytes.fromhex(name), settings.rules[0]['params']).decode('utf-8')) for name in resource['name']]
+        self.assertEqual(ret2['name'][0], original_resource['name'][0])
+        self.assertEqual(ret2['name'][1], original_resource['name'][1])
+        self.assertEqual(ret2['name'][2], original_resource['name'][2])
+
+
+    def test_depseudonymize_decrypt(self):
+        print(f"=== TEST SAFE HARBOUR REDACT ===")
+        config_filename = 'test/config/safe_harbour_redact.yaml'
+        resource_filename = 'test/fhir/patient_R5DB.json'
+        resource = read_resource_from_file(resource_filename)
+        settings = Settings(config_filename)
+        #ret = perform_deidentification(resource, settings)
+        ret = process_data(resource, settings)
+        #print(f'RET={ret}')
+        self.assertRaises(KeyError, lambda: ret['name'])
+        self.assertRaises(KeyError, lambda: ret['contact'][0]['name'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['text'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['line'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['city'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['district'])
+        self.assertRaises(KeyError, lambda: ret['address'][0]['postalCode'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['line'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['city'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['district'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['postalCode'])
+        self.assertRaises(KeyError, lambda: ret['birthDate'])
+        self.assertRaises(
+            KeyError, lambda: ret['_birthDate']['extension'][0]['valueDateTime'])
+        self.assertRaises(
+            KeyError, lambda: ret['address'][0]['period']['start'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['address']['period']['start'])
+        self.assertRaises(KeyError, lambda: ret['telecom'][0]['value'])
+        self.assertRaises(
+            KeyError, lambda: ret['contact'][0]['telecom'][0]['value'])

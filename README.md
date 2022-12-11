@@ -36,7 +36,6 @@ python cli.py deidentify test/fhir/simple_patient.json
 
 ```
 cd app
-python3 -m unittest test.test_config
 python3 -m unittest test.test_deidentify
 python3 -m unittest test.test_pseudonymize
 python3 -m unittest test.test_processor
