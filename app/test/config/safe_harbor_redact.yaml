@@ -1,4 +1,4 @@
-# SAFE HARBOUR DEFAULT CONFIGURATION
+# SAFE HARBOR DEFAULT CONFIGURATION
 # Remove the following 18 identifiers:
 # - Names
 # - All geographic subdivisions smaller than a state (street address, city, county, zip code)

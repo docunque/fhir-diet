@@ -56,7 +56,6 @@ def depseudonymize_by_path(resource, el, params):
                        ] if expected_params[2] in params else ','
     header_lines = params[expected_params[3]
                           ] if expected_params[3] in params else 0
-
     depseudonym = _find_pseudonym(
         params[expected_params[1]], separator, header_lines, el['value'], True)
     _substitute_nodes(ret, path[-1], el['value'], depseudonym)

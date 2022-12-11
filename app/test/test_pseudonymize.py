@@ -52,8 +52,8 @@ class TestPseudonymize(unittest.TestCase):
             ret['name'][2]['family'], original_resource['name'][2]['family'])
         print(f":thumbs_up:")
 
-    def test_pseudonymize_encrypt(self):
-        print(f"=== TEST PSEUDONYMIZE/DEPSEUDONYMIZE ENCRYPT ===")
+    def test_pseudonymize_encrypt_decrypt(self):
+        print(f"=== TEST PSEUDONYMIZE/DEPSEUDONYMIZE ENCRYPT/DECRYPT ===")
         config_filename = 'test/config/encrypt.yaml'
         resource_filename = 'test/fhir/simple_patient.json'
         resource = read_resource_from_file(resource_filename)
@@ -63,21 +63,21 @@ class TestPseudonymize(unittest.TestCase):
         config_filename = 'test/config/decrypt.yaml'
         settings = Settings(config_filename)
         ret2 = process_data(ret, settings)
-        print(f"Checking encryption...\t", end="", flush=True)
+        print(f"Checking encryption and decryption...\t", end="", flush=True)
         self.assertEqual(ret2['name'][0], original_resource['name'][0])
         self.assertEqual(ret2['name'][1], original_resource['name'][1])
         self.assertEqual(ret2['name'][2], original_resource['name'][2])
         print(f":thumbs_up:")
 
 
-    def test_depseudonymize_decrypt(self):
-        print(f"=== TEST SAFE HARBOUR REDACT ===")
-        config_filename = 'test/config/safe_harbour_redact.yaml'
+    def test_safe_harbor_redact(self):
+        print(f"=== TEST SAFE HARBOR REDACT ===")
+        config_filename = 'test/config/safe_harbor_redact.yaml'
         resource_filename = 'test/fhir/patient_R5DB.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = process_data(resource, settings)
-        print(f"Checking decryption...\t", end="", flush=True)
+        print(f"Checking redact...\t", end="", flush=True)
         self.assertRaises(KeyError, lambda: ret['name'])
         self.assertRaises(KeyError, lambda: ret['contact'][0]['name'])
         self.assertRaises(KeyError, lambda: ret['address'][0]['text'])
