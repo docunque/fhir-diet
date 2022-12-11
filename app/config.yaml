@@ -1,4 +1,4 @@
-# example of config file
+# Default config file
 general:
   appname: FHIR-DIET
   hash_type: sha3_256

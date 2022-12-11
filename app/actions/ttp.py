@@ -1,16 +1,17 @@
 from utils.util import error, find_nodes
-from actions.substitute import substitute_nodes
+from actions.substitute import _substitute_nodes
 import csv
 
-expected_params = ['output_file', 'mapping_file']
+expected_params = ['output_file', 'mapping_file', 'separator', 'header_lines']
 
 
-def find_pseudonym(mapping_file, value, reverse=False):
-    with(open(mapping_file, 'r')) as fin:
-        reader = csv.reader(fin)
-        mappings = dict((row[0], row[1]) for row in reader)
+def _find_pseudonym(mapping_file, separator=',', header_lines=0, value='', reverse=False):
+    with (open(mapping_file, 'r')) as fin:
+        reader = csv.reader(fin, delimiter=separator)
+        rows = [row for row in reader]
+        mappings = dict((row[0], row[1]) for row in rows[header_lines:])
     if reverse:
-        key_value = { i for i in mappings if mappings[i] == value }
+        key_value = {i for i in mappings if mappings[i] == value}
         return key_value.pop()
     return mappings[value]
 
@@ -32,8 +33,13 @@ def pseudonymize_by_path(resource, el, params):
         ret.clear()
         return
     ret = find_nodes(ret, path[:-1], [])
-    pseudonym = find_pseudonym(params[expected_params[1]], el['value'])
-    substitute_nodes(ret, path[-1], el['value'], pseudonym)
+    separator = params[expected_params[2]
+                       ] if expected_params[2] in params else ','
+    header_lines = params[expected_params[3]
+                          ] if expected_params[3] in params else 0
+    pseudonym = _find_pseudonym(
+        params[expected_params[1]], separator, header_lines, el['value'])
+    _substitute_nodes(ret, path[-1], el['value'], pseudonym)
 
 
 def depseudonymize_by_path(resource, el, params):
@@ -46,5 +52,11 @@ def depseudonymize_by_path(resource, el, params):
         ret.clear()
         return
     ret = find_nodes(ret, path[:-1], [])
-    depseudonym = find_pseudonym(params[expected_params[1]], el['value'], True)
-    substitute_nodes(ret, path[-1], el['value'], depseudonym)
+    separator = params[expected_params[2]
+                       ] if expected_params[2] in params else ','
+    header_lines = params[expected_params[3]
+                          ] if expected_params[3] in params else 0
+
+    depseudonym = _find_pseudonym(
+        params[expected_params[1]], separator, header_lines, el['value'], True)
+    _substitute_nodes(ret, path[-1], el['value'], depseudonym)

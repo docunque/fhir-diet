@@ -1,14 +1,9 @@
-from typing import Union, Any, Dict
+from typing import Any, Dict
 from fastapi import Depends, FastAPI
 from functools import lru_cache
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
-from pseudonymize import perform_pseudonymization
-from depseudonymize import perform_depseudonymization
-from deidentify import perform_deidentification
 from processor import process_data
-import json
 
 import yaml
 import config

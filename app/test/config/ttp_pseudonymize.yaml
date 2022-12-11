@@ -5,4 +5,6 @@ rules:
   - match: Patient.name.family
     action: ttp_pseudonymize
     params:
-      mapping_file: test/pseudonymization/pseudonym_mapping.csv
+      mapping_file: test/pseudonymization/transa_pseudonym_mapping.csv
+      separator: ";"
+      header_lines: 2

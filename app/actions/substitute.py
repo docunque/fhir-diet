@@ -2,25 +2,25 @@ from utils.util import error, find_nodes
 
 expected_params = ['substitute_with']
 
-def substitute(old_value, new_value):
+def _substitute(old_value, new_value):
     return new_value
 
-def substitute_nodes(node, key, value, new_value):
+def _substitute_nodes(node, key, value, new_value):
     if isinstance(node, list):
-        [ substitute_nodes(node[node_elem_idx], key, value, new_value) for node_elem_idx in range(len(node)) ]
+        [ _substitute_nodes(node[node_elem_idx], key, value, new_value) for node_elem_idx in range(len(node)) ]
     elif (key in list(node.keys())):
         #print(f'Found {key} in {node}')
         if isinstance(node[key], list):
             for idx, data in enumerate(node[key]):
                 if data == value:
                     if type(node[key][idx]) == type(new_value):
-                        node[key][idx] = substitute(node[key][idx], new_value)
+                        node[key][idx] = _substitute(node[key][idx], new_value)
                     else:
                         error(f'Types do not match ({type(node[key][idx])},{type(new_value)})')
         else:
             if node[key] == value:
                 if type(node[key]) == type(new_value):
-                    node[key] = substitute(node[key], new_value)
+                    node[key] = _substitute(node[key], new_value)
                 else:
                     error(f'Types do not match ({type(node[key])},{type(new_value)})')
 
@@ -34,4 +34,4 @@ def substitute_by_path(resource, el, params):
         ret.clear()
         return
     ret = find_nodes(ret, path[:-1], [])
-    substitute_nodes(ret, path[-1], el['value'], params[expected_params[0]])
+    _substitute_nodes(ret, path[-1], el['value'], params[expected_params[0]])

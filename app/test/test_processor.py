@@ -1,11 +1,11 @@
 import unittest
 from config import Settings
 from processor import process_data
-from cli import read_resource_from_file
+from utils.util import read_resource_from_file
 import dateutil.parser as parser
 from datetime import timedelta
 import copy
-import os
+from rich import print
 
 
 class TestProcessor(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestProcessor(unittest.TestCase):
             ret['name'][1], '6f4bae1f49ee29890cbfcf8ffb26eccc2520cb543fa30a28458e2952f40b7ea3')
         self.assertEqual(
             ret['name'][2], '96da330ddea4d222d7ae4b074da307520fb8ec00140682831b4b073a6110b8c0')
-        print(f"OK")
+        print(f":thumbs_up:")
         # Perturb checks
         print(f"Checking perturb...\t\t", end="", flush=True)
         perturbed_date = parser.parse(ret['birthDate'])
@@ -38,15 +38,15 @@ class TestProcessor(unittest.TestCase):
         max_date = ref_date + timedelta(days=10)
         self.assertTrue(perturbed_date <= max_date)
         self.assertTrue(perturbed_date >= min_date)
-        print(f"OK")
+        print(f":thumbs_up:")
         # Encrypt/Decrypt checks
         print(f"Checking encrypt/decrypt...\t", end="", flush=True)
         self.assertEqual(ret['address'][0], original_resource['address'][0])
-        print(f"OK")
+        print(f":thumbs_up:")
         # Substitute checks
         print(f"Checking substitute...\t\t", end="", flush=True)
         self.assertEqual(ret['id'], 'foo')
-        print(f"OK")
+        print(f":thumbs_up:")
 
     
 
