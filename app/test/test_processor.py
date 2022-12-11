@@ -9,11 +9,6 @@ import os
 
 
 class TestProcessor(unittest.TestCase):
-
-    def assertIsFile(self, path):
-        if not os.path.isfile(path):
-            raise AssertionError("File does not exist: %s" % str(path))
-
     """
     Testing settings applied to FHIR resources
     """
@@ -53,41 +48,7 @@ class TestProcessor(unittest.TestCase):
         self.assertEqual(ret['id'], 'foo')
         print(f"OK")
 
-    def test_ttp_rules(self):
-        print(f"======== TEST TTP RULES ========")
-        # List generation checks
-        list_outfile = 'test/pseudonymization/list.csv'
-        if os.path.isfile(list_outfile):
-            os.remove(list_outfile)
-        list_config_filename = 'test/config/ttp_gen_list.yaml'
-        list_settings = Settings(list_config_filename)
-        pseudo_config_filename = 'test/config/ttp_pseudonymize.yaml'
-        pseudo_settings = Settings(pseudo_config_filename)
-        depseudo_config_filename = 'test/config/ttp_depseudonymize.yaml'
-        depseudo_settings = Settings(depseudo_config_filename)
-        resource_filename = 'test/fhir/patient_R5DB.json'
-        resource = read_resource_from_file(resource_filename)
-        ret = process_data(resource, list_settings)
-        print(f"Checking TTP list generation...\t\t", end="", flush=True)
-        self.assertIsFile(list_outfile)
-        print(f"OK")
-        # Pseudonym application checks
-        original_resource = copy.deepcopy(ret)
-        ret = process_data(ret, pseudo_settings)
-        print(f"Checking TTP pseudonymization...\t", end="", flush=True)
-        self.assertEqual(
-            ret['name'][0]['family'], 'Cha2')
-        self.assertEqual(
-            ret['name'][2]['family'], 'Win5')
-        print(f"OK")
-        # Depseudonym application checks
-        ret = process_data(ret, depseudo_settings)
-        print(f"Checking TTP depseudonymization...\t", end="", flush=True)
-        self.assertEqual(
-            ret['name'][0]['family'], original_resource['name'][0]['family'])
-        self.assertEqual(
-            ret['name'][2]['family'], original_resource['name'][2]['family'])
-        print(f"OK")
+    
 
 
 if __name__ == '__main__':
