@@ -28,8 +28,7 @@ uvicorn main:app --reload
 Run as CLI
 
 ```
-python cli.py pseudonymize test/fhir/simple_patient.json
-python cli.py deidentify test/fhir/simple_patient.json
+python3 cli.py test/fhir/simple_patient.json
 ```
 
 **Test**

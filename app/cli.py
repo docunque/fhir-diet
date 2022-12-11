@@ -36,30 +36,6 @@ def read_resource_from_file(filename: str):
 
 
 @app.command()
-def deidentify(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_resource_from_file(resource_filename)
-    settings = config.Settings(config_filename)
-    ret = perform_deidentification(resource, settings)
-    print(f'CLI Deidentify Result={ret}')
-
-
-@app.command()
-def pseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_resource_from_file(resource_filename)
-    settings = config.Settings(config_filename)
-    ret = perform_pseudonymization(resource, settings)
-    print(f'CLI Pseudonimize Result={ret}')
-
-
-@app.command()
-def depseudonymize(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
-    resource = read_resource_from_file(resource_filename)
-    settings = config.Settings(config_filename)
-    ret = perform_depseudonymization(resource, settings)
-    print(f'CLI Depseudonimize Result={ret}')
-
-
-@app.command()
 def process(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
     resource = read_resource_from_file(resource_filename)
     settings = config.Settings(config_filename)

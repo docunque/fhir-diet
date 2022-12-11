@@ -47,33 +47,6 @@ async def read_root(settings: config.Settings = Depends(get_settings)):
     return RedirectResponse("/docs")
 
 
-@app.post("/de-identify")
-def deidentify(resource: Dict[Any, Any], settings: config.Settings = Depends(get_settings)):
-    """De-identify a FHIR resource. 
-    Accept a FHIR resource as any valid JSON. 
-    Then apply the settings rules and return the de-identified object.
-    """
-    return perform_deidentification(resource, settings)
-
-
-@app.post("/pseudonymize")
-def pseudonymize(resource: Dict[Any, Any], settings: config.Settings = Depends(get_settings)):
-    """Pseudonymize a FHIR resource. 
-    Accept a FHIR resource as any valid JSON. 
-    Then apply the settings rules and return the pseudonymized object.
-    """
-    return perform_pseudonymization(resource, settings)
-
-
-@app.post("/de-pseudonymize")
-def depseudonymize(resource: Dict[Any, Any], settings: config.Settings = Depends(get_settings)):
-    """De-pseudonymize a FHIR resource. 
-    Accept a pseudonymized FHIR resource as any valid JSON. 
-    Then apply the settings rules and return the de-pseudonymized object.
-    """
-    return perform_depseudonymization(resource, settings)
-
-
 @app.post("/process")
 def process(resource: Dict[Any, Any], settings: config.Settings = Depends(get_settings)):
     """Process a FHIR resource. 
