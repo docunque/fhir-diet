@@ -91,31 +91,7 @@ class TestDeidentify(unittest.TestCase):
         print(f"Actual: {result}\n\n\n\n")
         self.assertDictEqual(expected, result)
 
-    def test_encrypt1(self):
-        print(f"========= TEST ENCRYPT =========")
-        # initial test case
-        key = get_random_bytes(16)
-        nonce = get_random_bytes(12)
-        settings = Settings()
-        settings.rules = [
-            {'match': "Patient.id",
-             'action': 'encrypt',
-             'params': {
-                'key': key,
-                'nonce': nonce
-             }}
-        ]
-        resource = read_resource_from_file(infile)
-        #print(f"Resource loaded: {resource}")
-        cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
-        ciphertext, tag = cipher.encrypt_and_digest(resource['id'].encode())
-        enc_str = { 'ciphertext': ciphertext, 'tag': tag }
-        expected = copy.deepcopy(resource)
-        expected['id'] = enc_str
-        print(f"\nExpected: {expected}\n")
-        result = perform_deidentification(resource, settings)
-        print(f"Actual: {result}\n\n\n\n")
-        self.assertDictEqual(expected, result)
+    
 
     def test_perturb1(self):
         print(f"=========== TEST PERTURB ==========")
