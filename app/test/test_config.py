@@ -107,8 +107,8 @@ class TestConfig(unittest.TestCase):
         settings = Settings(config_filename)
         original_resource = copy.deepcopy(resource)
         ret = perform_pseudonymization(resource, settings)
-        #config_filename = 'test/config/encrypt.yaml'
-        #settings = Settings(config_filename)
+        config_filename = 'test/config/decrypt.yaml'
+        settings = Settings(config_filename)
         ret2 = perform_depseudonymization(ret, settings)
         #dec_names = [ json.loads(rsa_decrypt(bytes.fromhex(name), settings.rules[0]['params']).decode('utf-8')) for name in resource['name']]
         self.assertEqual(ret2['name'][0], original_resource['name'][0])

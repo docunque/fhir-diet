@@ -18,10 +18,11 @@ def substitute_nodes(node, key, value, new_value):
                     else:
                         error(f'Types do not match ({type(node[key][idx])},{type(new_value)})')
         else:
-            if type(node[key]) == type(new_value):
-                node[key] = substitute(node[key], new_value)
-            else:
-                error(f'Types do not match ({type(node[key])},{type(new_value)})')
+            if node[key] == value:
+                if type(node[key]) == type(new_value):
+                    node[key] = substitute(node[key], new_value)
+                else:
+                    error(f'Types do not match ({type(node[key])},{type(new_value)})')
 
 def substitute_by_path(resource, el, params):
     if not all(param in params  for param in expected_params):

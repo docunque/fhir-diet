@@ -7,6 +7,7 @@ from fastapi.responses import RedirectResponse
 from pseudonymize import perform_pseudonymization
 from depseudonymize import perform_depseudonymization
 from deidentify import perform_deidentification
+from processor import process_data
 import json
 
 import yaml
@@ -71,3 +72,12 @@ def depseudonymize(resource: Dict[Any, Any], settings: config.Settings = Depends
     Then apply the settings rules and return the de-pseudonymized object.
     """
     return perform_depseudonymization(resource, settings)
+
+
+@app.post("/process")
+def process(resource: Dict[Any, Any], settings: config.Settings = Depends(get_settings)):
+    """Process a FHIR resource. 
+    Accept a FHIR resource as any valid JSON. 
+    Then apply the settings rules and return the processed object.
+    """
+    return process_data(resource, settings)

@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import typer
+from processor import process_data
 import config
 from deidentify import perform_deidentification
 from depseudonymize import perform_depseudonymization
@@ -56,6 +57,14 @@ def depseudonymize(resource_filename: str, config_filename: str = typer.Argument
     settings = config.Settings(config_filename)
     ret = perform_depseudonymization(resource, settings)
     print(f'CLI Depseudonimize Result={ret}')
+
+
+@app.command()
+def process(resource_filename: str, config_filename: str = typer.Argument("config.yaml")):
+    resource = read_resource_from_file(resource_filename)
+    settings = config.Settings(config_filename)
+    ret = process_data(resource, settings)
+    print(f'CLI Process Result={ret}')
 
 
 if __name__ == "__main__":
