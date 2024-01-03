@@ -22,7 +22,7 @@ class TestConfig(unittest.TestCase):
     def test_read_lists(self):
         print(f"=========== TEST READ LIST ===========")
         config_filename = 'test/config/keep.yaml'
-        resource_filename = 'test/fhir/patient_list.json'
+        resource_filename = 'test/sample_fhir_data/patient_list.json'
         resource = read_resource_from_file(resource_filename)
         original_value = resource[0]['name']
         settings = Settings(config_filename)
@@ -34,7 +34,7 @@ class TestConfig(unittest.TestCase):
     def test_keep(self):
         print(f"=========== TEST KEEP ===========")
         config_filename = 'test/config/keep.yaml'
-        resource_filename = 'test/fhir/simple_patient.json'
+        resource_filename = 'test/sample_fhir_data/simple_patient.json'
         resource = read_resource_from_file(resource_filename)
         original_value = resource['name']
         settings = Settings(config_filename)
@@ -46,7 +46,7 @@ class TestConfig(unittest.TestCase):
     def test_deidentify_redact(self):
         print(f"========== TEST REDACT ==========")
         config_filename = 'test/config/redact.yaml'
-        resource_filename = 'test/fhir/simple_patient.json'
+        resource_filename = 'test/sample_fhir_data/simple_patient.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = process_data(resource, settings)
@@ -57,7 +57,7 @@ class TestConfig(unittest.TestCase):
     def test_deidentify_perturb(self):
         print(f"========== TEST PERTURB =========")
         config_filename = 'test/config/perturb.yaml'
-        resource_filename = 'test/fhir/patient_R5DB.json'
+        resource_filename = 'test/sample_fhir_data/patient_R5DB.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = process_data(resource, settings)
@@ -73,7 +73,7 @@ class TestConfig(unittest.TestCase):
     def test_deidentify_cryptohash(self):
         print(f"======== TEST CRYPTOHASH ========")
         config_filename = 'test/config/cryptohash.yaml'
-        resource_filename = 'test/fhir/simple_patient.json'
+        resource_filename = 'test/sample_fhir_data/simple_patient.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = process_data(resource, settings)
@@ -89,7 +89,7 @@ class TestConfig(unittest.TestCase):
     def test_deidentify_substitute(self):
         print(f"======== TEST SUBSTITUTE ========")
         config_filename = 'test/config/substitute.yaml'
-        resource_filename = 'test/fhir/simple_patient.json'
+        resource_filename = 'test/sample_fhir_data/simple_patient.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         ret = process_data(resource, settings)

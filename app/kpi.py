@@ -3,8 +3,8 @@
 
 import os
 import datetime
-# CMD = "python3 cli.py test/fhir/simple_patient.json test/config/safe_harbor_redact.yaml"
-CMD = "python3 cli.py test/fhir/simple_patient.json test/config/encrypt.yaml"
+# CMD = "python3 cli.py test/sample_fhir_data/simple_patient.json test/config/safe_harbor_redact.yaml"
+CMD = "python3 cli.py test/sample_fhir_data/simple_patient.json test/config/encrypt.yaml"
 N_RUNS = 100
 start_time = datetime.datetime.now()
 for i in range(N_RUNS):

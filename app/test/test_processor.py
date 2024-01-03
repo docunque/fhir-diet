@@ -16,7 +16,7 @@ class TestProcessor(unittest.TestCase):
     def test_multiple_rules(self):
         print(f"======== TEST MULTIPLE RULES ========")
         config_filename = 'test/config/multi_rule.yaml'
-        resource_filename = 'test/fhir/patient_R5DB.json'
+        resource_filename = 'test/sample_fhir_data/patient_R5DB.json'
         resource = read_resource_from_file(resource_filename)
         settings = Settings(config_filename)
         original_resource = copy.deepcopy(resource)

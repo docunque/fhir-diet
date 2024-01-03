@@ -16,7 +16,7 @@ The _matches_ are expressed using [FHIR Path](https://build.fhir.org/ig/HL7/FHIR
 The _actions_ can be such redact, cryptohash or the other documented in this file.
 
 ![architecture](https://user-images.githubusercontent.com/696267/210065661-71900285-0d99-4ddc-b12b-430145ebd721.png)
- logo architecture
+logo architecture
 
 For instance, to implement "remove patient's name" it sufficies to create a configuration file like this:
 
@@ -37,9 +37,10 @@ git clone https://github.com/docunque/fhir-diet.git
 pip install -r requirements.txt
 ```
 
-
 ## Running the system
+
 The service is provided either through a Command Line Interface (CLI) or through a web service. You can also choose to run the system using Docker.
+
 ### Web service
 
 To run the FHIR-Diet as web service:
@@ -72,10 +73,11 @@ Usage: cli.py [OPTIONS] RESOURCE_FILENAME [CONFIG_FILENAME]
 For example:
 
 ```sh
-python3 cli.py test/fhir/simple_patient.json test/config/safe_harbor_redact.yaml
+python3 cli.py test/sample_fhir_data/simple_patient.json test/config/safe_harbor_redact.yaml
 ```
 
 ## Unit Tests
+
 You can run some test cases in this way:
 
 ```sh
@@ -89,35 +91,33 @@ python3 -m unittest test.test_processor
 
 ### De-identification actions
 
-| Action                                                                                               | Description                                                                                                      |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `cryptohash` | Use a hash function on the element selected by the FHIR-path query. We implemented SHA3 256 as state of the art. |
-| `perturb` | Change a numerical value introducing a random positive or negative value. We implemented the method for integer, float and date, allowing to introduce a random number of days |
-| `redact` | Remove the element.                                                                                              |
-| `substitute`  | Substitute the element with a fixed string, e.g., "ANON"                                                         |
-
+| Action       | Description                                                                                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `cryptohash` | Use a hash function on the element selected by the FHIR-path query. We implemented SHA3 256 as state of the art.                                                               |
+| `perturb`    | Change a numerical value introducing a random positive or negative value. We implemented the method for integer, float and date, allowing to introduce a random number of days |
+| `redact`     | Remove the element.                                                                                                                                                            |
+| `substitute` | Substitute the element with a fixed string, e.g., "ANON"                                                                                                                       |
 
 ### Pseudonymization actions
 
-| Action | Description
-| ----------------- | ----------------------------------------- |
-| `encrypt`	| Use encryption to encrypt a field identified with FHIR-Path. If the field is complex (e.g., a nested structure or a list), it is converted in JSON and then encrypted. By default we use RSA albeit the encryption scheme is configurable. | 
-| `ttp_gen_list`	| Generate a csv with a list of data to be pseudonymized. |
-| `ttp_pseudonymize` |	Substitute a field with its pseudonym, read by the mapping file (specified in the params with the separator and the header_lines) |
-
-
+| Action             | Description                                                                                                                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `encrypt`          | Use encryption to encrypt a field identified with FHIR-Path. If the field is complex (e.g., a nested structure or a list), it is converted in JSON and then encrypted. By default we use RSA albeit the encryption scheme is configurable. |
+| `ttp_gen_list`     | Generate a csv with a list of data to be pseudonymized.                                                                                                                                                                                    |
+| `ttp_pseudonymize` | Substitute a field with its pseudonym, read by the mapping file (specified in the params with the separator and the header_lines)                                                                                                          |
 
 ### De-pseudonymization actions
-| Action| Description
-| -------------------------- | ------------------------------------------- |
-| `decrypt` | Decrypt a previously encrypted field. |
-| `ttp_depseudonymize`	| Revert a pseudonymization using a mapping file to restore the real values of the field. |
 
+| Action               | Description                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------- |
+| `decrypt`            | Decrypt a previously encrypted field.                                                   |
+| `ttp_depseudonymize` | Revert a pseudonymization using a mapping file to restore the real values of the field. |
 
 ### Other actions
-| Action                                                                                               | Description
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `keep` | 	keep the element as is.  |
+
+| Action | Description             |
+| ------ | ----------------------- |
+| `keep` | keep the element as is. |
 
 ### Acknoledgment
 
