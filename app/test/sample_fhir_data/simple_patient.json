@@ -1,0 +1,32 @@
+{
+    "resourceType": "Patient",
+    "id": "example",
+    "ttl": 60,
+    "name": [
+      {
+        "use": "official",
+        "given": [
+          "Peter",
+          "James"
+        ],
+        "family": "Chalmers"
+      },
+      {
+        "use": "usual",
+        "given": [
+          "Jim"
+        ]
+      },
+      {
+        "use": "maiden",
+        "given": [
+          "Peter",
+          "James"
+        ],
+        "family": "Windsor",
+        "period": {
+          "end": "2002"
+        }
+      }
+    ]
+  }
