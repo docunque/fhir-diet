@@ -1,7 +1,7 @@
 fastapi>=0.68.0,<0.69.0
 pydantic>=1.8.0,<2.0.0
 uvicorn>=0.15.0,<0.16.0
-PyYAML==5.4.1
+PyYAML>=6
 typer==0.6.1
 fhirpathpy==0.1.0
 rich==12.5.1
